@@ -1,99 +1,138 @@
-# portoptima
+# 📊 PortOptima
 
-A Python-based tool for investment portfolio analysis and optimization using Modern Portfolio Theory (MPT).
+A Python tool for portfolio analysis and optimization using Modern Portfolio Theory (MPT).
 
-## Overview
+## 📋 Overview
 
-This tool allows you to analyze an investment portfolio, calculate key risk and return metrics, generate an efficient frontier via Monte Carlo simulation, and optimize asset allocation. It evaluates your portfolio's performance and suggests an optimal asset allocation based on risk and return parameters.
+PortOptima is a practical implementation of portfolio theory concepts that helps analyze investment portfolios and explore optimization possibilities. This tool demonstrates how MPT principles can be applied to evaluate portfolio performance, visualize risk-return relationships, and suggest potentially improved asset allocations.
 
-## Features
+![Portfolio Optimization](https://img.shields.io/badge/Academic-Project-blue)
 
-- **Data Retrieval**: Fetch historical price data for a list of assets using Yahoo Finance.
-- **Portfolio Analysis**: Calculate expected return, volatility, and Sharpe ratio.
-- **Monte Carlo Simulation**: Generate random portfolios to visualize the efficient frontier.
-- **Portfolio Optimization**: Find optimal portfolios that maximize Sharpe ratio or minimize variance.
-- **Visualization**: Create charts of the efficient frontier, asset allocation, correlation matrix, and performance metrics.
-- **Command Line Interface**: Simple CLI for data input and results display.
+## 🖼️ Sample Outputs
 
-## Installation
+Here's what the tool can generate:
+
+### Asset Allocation Comparison
+
+![Asset Allocation](modules/example_output/asset_allocation.png)
+
+*Comparison between equal-weight allocation and optimized weights*
+
+### Asset Correlation Matrix
+
+![Correlation Matrix](modules/example_output/correlation_matrix.png)
+
+*Correlation structure between assets in the portfolio*
+
+### Efficient Frontier
+
+![Efficient Frontier](modules/example_output/efficient_frontier.png)
+
+*Risk-return tradeoff with randomly generated portfolios*
+
+### Performance Metrics
+
+![Performance Metrics](modules/example_output/performance_summary.png)
+
+*Key metrics for the analyzed portfolio*
+
+## ✨ Features
+
+- **Data Retrieval**: Fetch historical price data for stocks using Yahoo Finance API
+- **Portfolio Analysis**: Calculate basic risk and return metrics
+- **Simulation**: Generate random portfolios to visualize the efficient frontier
+- **Basic Optimization**: Find portfolios with improved Sharpe ratio or reduced volatility
+- **Visualization**: Create charts of efficient frontier, allocations, and metrics
+- **Command Line Interface**: Simple inputs for portfolio analysis
+
+## 🚀 Installation
 
 1. Clone the repository:
 
-   ``` bash
+   ```bash
    git clone https://github.com/tan-ad/portoptima.git
-   cd portfolio-optimizer
+   cd portoptima/modules
    ```
 
-2. Create a virtual environment (optional but recommended):
+2. Create a virtual environment (recommended):
 
-   ``` bash
+   ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
-3. Install the required packages:
+3. Install dependencies:
 
-   ``` bash
+   ```bash
    pip install -r requirements.txt
    ```
 
-## Usage
+## 💡 Usage
 
-### Command Line Interface
+### Basic Example
 
-Run the analyzer with your portfolio:
+Analyze a portfolio with equal weights:
 
 ```bash
-python portfolio_analyzer.py --tickers AAPL MSFT GOOGL --weights 0.3 0.3 0.4
+python portfolio_analyzer.py --tickers AAPL MSFT GOOGL AMZN BRK-B
 ```
 
-### Optional Parameters
+### Custom Weights
 
-- `--period 3y`: Set the period for historical data (default: 5y)
-- `--interval 1wk`: Set the data interval (default: 1d)
-- `--risk-free-rate 0.015`: Set the annual risk-free rate (default: 0.02)
-- `--frequency weekly`: Set the return frequency (default: daily)
-- `--num-simulations 5000`: Set the number of Monte Carlo simulations (default: 10000)
-- `--optimization min_volatility`: Set the optimization target (default: sharpe)
-- `--min-weight 0.05`: Set minimum weight for any asset (default: 0)
-- `--max-weight 0.5`: Set maximum weight for any asset (default: 1)
-- `--output-dir results`: Set directory to save output files (default: current directory)
+```bash
+python portfolio_analyzer.py --tickers AAPL MSFT GOOGL AMZN BRK-B --weights 0.2 0.2 0.2 0.2 0.2
+```
 
-### Example
+### Finding an Optimized Portfolio
 
-Run the included example script for a quick demonstration:
+```bash
+python portfolio_analyzer.py --tickers AAPL MSFT GOOGL AMZN BRK-B --optimization max_sharpe
+```
+
+### Quick Demo
+
+Run the example script for a demonstration:
 
 ```bash
 python example.py
 ```
 
-This will analyze a sample portfolio of tech stocks and save the visualizations in an `example_output` directory.
+## ⌨️ Command-Line Parameters
 
-## Project Structure
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `--tickers` | List of ticker symbols | Required |
+| `--weights` | Portfolio weights | Equal weights |
+| `--period` | Historical data period (e.g., 1y, 5y) | 5y |
+| `--interval` | Data interval (1d, 1wk, 1mo) | 1d |
+| `--risk-free-rate` | Annual risk-free rate | 0.02 |
+| `--num-simulations` | Number of Monte Carlo simulations | 5000 |
+| `--optimization` | Optimization target (max_sharpe, min_volatility) | max_sharpe |
+| `--min-weight` | Minimum weight constraint | 0 |
+| `--max-weight` | Maximum weight constraint | 1 |
+| `--output-dir` | Directory to save output files | Current directory |
 
-- `data_handler.py`: Handles data acquisition and processing
-- `portfolio.py`: Core portfolio analysis functionality
-- `optimization.py`: Portfolio optimization features
-- `visualization.py`: Plotting and visualization
-- `portfolio_analyzer.py`: Main CLI application
-- `example.py`: Example usage script
-- `requirements.txt`: Dependencies
+## ⚠️ Limitations
 
-## Output
+- This is an educational tool that implements theoretical concepts
+- Results should not be used as the sole basis for actual investment decisions
+- Historical performance does not guarantee future results
+- The optimization is based on historical data only and doesn't account for forward-looking views
+- Transaction costs, taxes, and liquidity constraints are not considered
 
-The tool generates:
-
-- A detailed text summary of portfolio metrics
-- Visual charts saved as PNG files:
-  - Efficient frontier plot
-  - Current vs. optimal asset allocation
-  - Asset correlation matrix
-  - Performance metrics summary
-
-## Dependencies
+## 🔧 Dependencies
 
 - `numpy`: Numerical computations
-- `pandas`: Data handling and manipulation
+- `pandas`: Data handling
 - `matplotlib`: Visualization
 - `scipy`: Optimization algorithms
 - `yfinance`: Yahoo Finance API for historical data
+- `seaborn`: Enhanced visualizations
+
+## 📜 License
+
+No license, do whatever you want with this.
+
+---
+
+*This tool was created as a learning project to explore portfolio theory concepts.* 🎓

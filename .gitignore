@@ -172,3 +172,7 @@ cython_debug/
 
 # Output images
 modules/output/*
+
+# Desktp Service Store
+.DS_Store
+*/.DS_Store
