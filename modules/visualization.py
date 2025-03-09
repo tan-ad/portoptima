@@ -88,7 +88,7 @@ def plot_asset_allocation(current_portfolio, optimal_portfolio, assets, show_plo
     ax2.pie(optimal_portfolio['weights'], labels=assets, autopct='%1.1f%%')
     ax2.set_title('Optimal Asset Allocation')
     
-    plt.tight_layout()
+    plt.tight_layout(pad=3.0)
     plt.savefig('asset_allocation.png')
     print("Saved asset allocation plot to 'asset_allocation.png'")
     
@@ -135,7 +135,7 @@ def plot_correlation_matrix(returns, show_plot=True):
 
 def plot_performance_summary(portfolio, show_plot=True):
     """
-    Plot summary of portfolio performance metrics.
+    Display portfolio performance metrics as a visual table.
     
     Parameters:
     -----------
@@ -144,29 +144,63 @@ def plot_performance_summary(portfolio, show_plot=True):
     show_plot : bool, default=True
         Whether to display the plot (plt.show()) or just save to file
     """
-    metrics = [
-        ('Expected Return', portfolio['metrics']['expected_return'] * 100),
-        ('Volatility', portfolio['metrics']['volatility'] * 100),
-        ('Sharpe Ratio', portfolio['metrics']['sharpe_ratio'])
+    import matplotlib.pyplot as plt
+    from matplotlib.table import Table
+    
+    # Create figure and axis without visible axes
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.axis('off')
+    ax.axis('tight')
+    
+    # Prepare data for the table
+    headers = ['Metric', 'Value', 'Description']
+    data = [
+        ['Expected Annual Return', f"{portfolio['metrics']['expected_return'] * 100:.2f}%", 'Predicted yearly return'],
+        ['Annual Volatility', f"{portfolio['metrics']['volatility'] * 100:.2f}%", 'Measure of risk/variation'],
+        ['Sharpe Ratio', f"{portfolio['metrics']['sharpe_ratio']:.2f}", 'Risk-adjusted return']
     ]
     
-    labels, values = zip(*metrics)
+    # Create the table
+    table = ax.table(
+        cellText=[headers] + data,
+        cellLoc='center',
+        loc='center',
+        cellColours=[
+            ['#4472C4', '#4472C4', '#4472C4']
+        ] + [
+            ['#E6F0FF' if i % 2 == 0 else '#D4E2FF' for _ in range(3)]
+            for i in range(len(data))
+        ]
+    )
     
-    plt.figure(figsize=(10, 6))
-    bars = plt.bar(labels, values)
+    # Style the table
+    table.auto_set_font_size(False)
+    table.set_fontsize(10)
     
-    # Add values on top of bars
-    for bar in bars:
-        height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width()/2., height + 0.1,
-                f'{height:.2f}', ha='center', va='bottom')
+    # Set text color for header row to white and make it bold
+    for j in range(len(headers)):
+        cell = table[(0, j)]
+        cell.set_text_props(color='white', fontweight='bold')
     
-    plt.title('Portfolio Performance Metrics')
-    plt.ylabel('Value')
-    plt.grid(axis='y', linestyle='--', alpha=0.7)
+    # Adjust cell sizes
+    table.scale(1, 1.5)
     
+    # Add title
+    plt.suptitle('Portfolio Performance Metrics', fontsize=16, y=0.95)
+    
+    # Add footer with explanation
+    footer_text = (
+        "Expected Return: Higher is better | Volatility: Lower is better | "
+        "Sharpe Ratio: Higher is better (risk-adjusted return)"
+    )
+    fig.text(0.5, 0.01, footer_text, ha='center', fontsize=9, style='italic')
+    
+    # Adjust layout
     plt.tight_layout()
-    plt.savefig('performance_summary.png')
+    plt.subplots_adjust(top=0.85, bottom=0.1)
+    
+    # Save figure
+    plt.savefig('performance_summary.png', dpi=300, bbox_inches='tight')
     print("Saved performance summary plot to 'performance_summary.png'")
     
     if show_plot:
