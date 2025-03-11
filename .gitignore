@@ -176,3 +176,9 @@ modules/output/*
 # Desktp Service Store
 .DS_Store
 */.DS_Store
+
+# Docker
+.dockerignore
+
+# Django setup
+setup_django.sh
